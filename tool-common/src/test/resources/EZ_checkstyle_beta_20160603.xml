@@ -1,0 +1,233 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+          "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
+          "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+
+<!--
+
+  Checkstyle configuration that checks the sun coding conventions from:
+
+    - the Java Language Specification at
+      http://java.sun.com/docs/books/jls/second_edition/html/index.html
+
+    - the Sun Code Conventions at http://java.sun.com/docs/codeconv/
+
+    - the Javadoc guidelines at
+      http://java.sun.com/j2se/javadoc/writingdoccomments/index.html
+
+    - the JDK Api documentation http://java.sun.com/j2se/docs/api/index.html
+
+    - some best practices
+
+  Checkstyle is very configurable. Be sure to read the documentation at
+  http://checkstyle.sf.net (or in your downloaded distribution).
+
+  Most Checks are configurable, be sure to consult the documentation.
+
+  To completely disable a check, just comment it out or delete it from the file.
+
+  Finally, it is worth reading the documentation.
+
+-->
+
+<module name="Checker">
+    <!--
+        If you set the basedir property below, then all reported file
+        names will be relative to the specified directory. See
+        http://checkstyle.sourceforge.net/5.x/config.html#Checker
+
+        <property name="basedir" value="${basedir}"/>
+    -->
+
+     <property name="charset" value="UTF-8"/>
+
+    <property name="severity" value="warning"/>
+    
+    <!-- Checks for Size Violations.     属性max不设置的话，默认为2000 -->
+    <!-- See http://checkstyle.sf.net/config_sizes.html -->
+    <module name="FileLength">
+      <property name="max" value="1500"/>
+	  </module>
+
+    
+    <!-- Checks for whitespace    
+    对代码中是否使用Tab制表符进行检查 
+    在Eclipse Formatter中，为了保证代码在不同IDE和运行环境的兼容性和一致性，强烈建议选择Spaces only
+    -->
+    <!-- See http://checkstyle.sf.net/config_whitespace.html -->
+    <module name="FileTabCharacter"/>
+    
+    <!--
+		重复代码的检查，超过8行就认为重复，UTF-8格式 本检查一定要放在"TreeWalker"节点前，否则在
+		Checkclipse中会无法使用。(在ant下可以)
+		-->
+	<!--     <module name="StrictDuplicateCode">
+        <property name="min" value="50" />
+    </module> -->
+
+    <!-- Checks for Headers                                -->
+    <!-- See http://checkstyle.sf.net/config_header.html   -->
+    <!-- <module name="Header"> -->
+    <!--   <property name="headerFile" value="${checkstyle.header.file}"/> -->
+    <!--   <property name="fileExtensions" value="java"/> -->
+    <!-- </module> -->
+
+    <module name="TreeWalker">
+
+        <!-- Checks for Javadoc comments.                     -->
+        <!-- See http://checkstyle.sf.net/config_javadoc.html -->
+        <!-- 检查方法和构造函数的javadoc -->
+        <module name="JavadocMethod">
+            <property name="scope" value="public"/>
+            <property name="allowMissingPropertyJavadoc" value="true"/>
+            <property name="allowMissingJavadoc" value="false"/>
+            <property name=" tokens" value="METHOD_DEF"/>
+        </module>
+        <!-- 对类和接口的javadoc注释进行检查 -->
+        <module name="JavadocType"/>
+        <!-- 对变量的javadoc进行检查 -->
+        <module name="JavadocVariable">
+        	  <property name="scope" value="public"/>
+        </module>
+        <!-- 对javadoc进行规范性检查 -->
+        <module name="JavadocStyle">
+            <property name="checkFirstSentence" value="false"/>
+        </module>
+
+        <!-- Checks for Naming Conventions. 命名规范 -->
+        <!-- See http://checkstyle.sf.net/config_naming.html -->
+        <!-- 常量的命名规范 ^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$ -->
+        <module name="ConstantName"/>
+        <!-- 局部、final变量（包括catch中变量）的命名规范，默认为^[a-z][a-zA-Z0-9]*$ -->
+        <module name="LocalFinalVariableName"/>
+        <!-- 局部、非final变量（包括catch中变量）的命名规范，默认为^[a-z][a-zA-Z0-9]*$ -->
+        <module name="LocalVariableName"/>
+        <!-- 成员变量（非静态变量）的命名规范，默认为^[a-z][a-zA-Z0-9]*$ -->
+        <module name="MemberName"/>
+        <!-- 方法的命名规范。默认为^[a-z][a-zA-Z0-9]*$ -->
+        <module name="MethodName"/>
+        <!-- 包名规范。默认为^[a-z]+(\.[a-zA-Z_][a-zA-Z0-9_]*)*$ -->
+        <module name="PackageName"/>
+        <!-- 普通参数命名规范。默认为^[a-z][a-zA-Z0-9]*$ -->
+        <module name="ParameterName"/>
+        <!-- 静态、非final变量的命名规范。默认为^[a-z][a-zA-Z0-9]*$ -->
+        <module name="StaticVariableName"/>
+        <!-- 类和接口的命名规范。默认为^[A-Z][a-zA-Z0-9]*$ -->
+        <module name="TypeName"/>
+
+
+        <!-- Checks for imports                              -->
+        <!-- See http://checkstyle.sf.net/config_import.html -->
+        <!-- 检查是否import了违法的包。默认拒绝import所有sun.*包 -->
+        <module name="IllegalImport"/> <!-- defaults to sun.* packages -->
+        <!-- 对冗余的引入进行检查 -->
+        <module name="RedundantImport"/>
+        <!-- 对是否有未使用的import进行检查 -->
+        <module name="UnusedImports"/>
+
+
+        <!-- Checks for Size Violations.                    -->
+        <!-- See http://checkstyle.sf.net/config_sizes.html -->
+	      <!-- 限制方法或构造函数的长度 max默认为80 -->
+        <module name="MethodLength">
+        	<property name="tokens" value="METHOD_DEF"/>
+        	<property name="max" value="100"/>
+        	<property name="countEmpty" value="false"/> <!-- default is true -->
+        </module>
+        <!-- 限制方法或构造函数中参数的个数 max默认为7 -->
+        <module name="ParameterNumber">
+        	<property name="max" value="7"/>
+        	<property name="tokens" value="METHOD_DEF"/>
+        </module>
+
+
+        <!-- Modifier Checks                                    -->
+        <!-- See http://checkstyle.sf.net/config_modifiers.html -->  
+        <!-- 对修饰符出现的顺序进行检查 -->
+        <module name="ModifierOrder"/>
+        <!-- 对接口、注释定义中冗余的关键字进行检查。也会检查final类中非法的冗余final修饰符 -->
+        <!-- <module name="RedundantModifier"/> -->
+
+
+        <!-- Checks for blocks. You know, those {}'s         -->
+        <!-- See http://checkstyle.sf.net/config_blocks.html -->
+        <!-- 对代码中的空块进行检查 -->
+        <module name="EmptyBlock"/>
+        <!-- 对左侧大括号的放置位置进行检查 -->
+        <module name="LeftCurly"/>
+        <!-- 对包围代码块的括弧进行检查 会提示'if' construct must use '{}'s -->
+        <module name="NeedBraces"/>
+        <!-- 对关键字else、try和catch的右侧大括号放置位置进行检查 -->
+        <module name="RightCurly">
+        	<property name="option" value="same"/>
+        </module>
+
+
+
+        <!-- Checks for common coding problems               -->
+        <!-- See http://checkstyle.sf.net/config_coding.html -->
+        <!-- 检查inline的条件操作。如，String b = (a==null || a.length<1) ? null : a.substring(1); -->
+        <!-- <module name="AvoidInlineConditionals"/> -->
+        <!-- 对空语句（只有“；“）进行检查 -->
+        <module name="EmptyStatement"/>
+        <!-- 检查重写了equals()方法的类是否也重写了hashcode()方法 -->
+        <module name="EqualsHashCode"/>
+        <!-- 当一个类有工厂方法实例化时，检查是否使用工厂方法实例化。
+        例如，Boolean对象构造使用的是Boolean.valueOf()，而非构造函数 -->
+        <module name="IllegalInstantiation"/>
+        <!-- 检查字表达式是否有赋值语句，例如，”String s = Integer.toString(i = 2);”，for语句除外 -->
+        <module name="InnerAssignment"/>
+        <!-- 检查switch语句块中是否有default子句 -->
+        <module name="MissingSwitchDefault"/>
+        <!-- 检查是否有重复被抛出的异常，包括，重复、未被查出的或另一个已声明的异常的子类 -->
+        <!-- <module name="RedundantThrows"/> -->
+        <!-- 对过于复杂的boolean表达式进行检查 -->
+        <module name="SimplifyBooleanExpression"/>
+        <!-- 对复杂的boolean返回值表达式进行检查 -->
+        <module name="SimplifyBooleanReturn"/>
+        <!-- clone方法必须调用了super.clone() -->
+        <module name="SuperClone" />
+        <!-- finalize 必须调用了super.finalize() -->
+        <module name="SuperFinalize" />
+        <!-- 检查是否非法捕获了java.lang.Exception, java.lang.Error 或 java.lang.RuntimeException -->
+       <module name="IllegalCatch"/>
+        <!-- if最多嵌套3层 -->
+        <module name="NestedIfDepth">
+        	<property name="max" value="3" />
+        </module>
+        <!-- try最多被嵌套2层 -->
+        <module name="NestedTryDepth">
+        	<property name="max" value="2" />
+        </module>
+        <!-- String的比较不能用!= 和 == -->
+        <module name="StringLiteralEquality" />
+		
+		
+        <!-- Checks for class design                         -->
+        <!-- See http://checkstyle.sf.net/config_design.html -->
+        
+        <!-- 检查声明为final的类只有私有构造方法 -->
+        <module name="FinalClass"/>
+        <!-- 检查接口类型，例如javax.swing.SwingConstants将被该检查标识出来 -->
+        <module name="InterfaceIsType"/>
+
+
+        <!-- Miscellaneous other checks.                   -->
+        <!-- See http://checkstyle.sf.net/config_misc.html -->
+        <!-- 对TODO注释进行检查 -->
+        <module name="TodoComment"/>
+        <!-- 检查并确保所有的常量中的L都是大写的。也就是在常量中没有使用”l”而是用的”L”，
+        比如long型常量，都要以”L”结尾。这与Sun编码规范 3.10.1 相一致。小写的字母l 跟数字1 太象了 -->
+        <module name="UpperEll"/>
+        <!-- 对java代码的缩进进行检查。
+        basicOffset：一个新的缩进使用的空格数。默认为4。
+        braceAdjustment：新行的括号应该缩进几个空格。默认为0。
+        caseIndent：一个case标签应该缩进几个空格  -->
+        <module name="Indentation">
+        	<property name="caseIndent" value="0"/>
+        </module>
+
+
+    </module>
+
+</module>

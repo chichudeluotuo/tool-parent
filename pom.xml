@@ -9,5 +9,6 @@
 	<modules>
 		<module>tool-jdbc</module>
 		<module>tool</module>
+		<module>tool-common</module>
 	</modules>
 </project>
