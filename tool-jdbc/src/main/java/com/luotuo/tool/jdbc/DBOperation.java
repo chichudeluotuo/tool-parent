@@ -18,6 +18,10 @@ public class DBOperation {
 
 	}
 
+	/**
+	 * 连接数据库执行sql
+	 * @param sql
+	 */
 	public void execute(String sql) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -34,7 +38,7 @@ public class DBOperation {
 		PreparedStatement ps = null;
 		try {
 			
-			//引入分表策略
+			
 			ps = conn.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 			ps.setString(1, "lujiliang");
 			ps.setLong(2, 1);
