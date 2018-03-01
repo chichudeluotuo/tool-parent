@@ -18,6 +18,11 @@
 			<artifactId>ant</artifactId>
 			<version>1.8.3</version>
 		</dependency>
+		<dependency>
+			<groupId>com.luotuo.tool.common</groupId>
+			<artifactId>tool-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 
 	</dependencies>
 	<build>
