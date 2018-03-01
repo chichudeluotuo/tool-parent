@@ -11,4 +11,9 @@
 		<module>tool-zookeeper</module>
 		<module>tool-common</module>
 	</modules>
+
+	<properties>
+		<junit.version>4.10</junit.version>
+	</properties>
+
 </project>
