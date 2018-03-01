@@ -7,7 +7,7 @@
  *
 */
 
-package com.luotuo.tool.zookeeper;
+package com.luotuo.tool.zookeeper.base;
 /**
  * ClassName:BootStart <br/>
  * Function: TODO ADD FUNCTION. <br/>
