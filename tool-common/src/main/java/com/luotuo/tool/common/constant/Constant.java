@@ -8,15 +8,21 @@
 */
 
 package com.luotuo.tool.common.constant;
+
 /**
  * ClassName:Constant <br/>
- * Function: TODO ADD FUNCTION. <br/>
- * Reason:	 TODO ADD REASON. <br/>
- * Date:     2018年2月28日 下午11:14:44 <br/>
- * @author   鲁济良
- * @since    JDK 1.8	 
+ * Function: 各个模块公用常量. <br/>
+ * Reason: TODO ADD REASON. <br/>
+ * Date: 2018年2月28日 下午11:14:44 <br/>
+ * 
+ * @author 鲁济良
+ * @since JDK 1.8
  */
 public class Constant {
 
-}
+	/**
+	 * 常量定义示例
+	 */
+	public final static String DEMO = "";
 
+}
