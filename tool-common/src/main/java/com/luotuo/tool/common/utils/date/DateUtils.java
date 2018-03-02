@@ -98,134 +98,47 @@ public final class DateUtils {
     public static final TimeZone TIMEZONEBEIJING = TimeZone.getTimeZone("Asia/Shanghai");
 
     /**
-     * date2String:(日期毫秒数转换为日期格式字符串（yyyy/MM/dd）). <br/>
+     * date2String:(日期毫秒数转换为指定日期格式字符串). <br/>
      *
      * @author 鲁济良
      * @param date
      *            长整型（毫秒）日期
-     * @return yyyy/MM/dd
+     * @param format
+     *            字符串格式
+     * @return 日期字符串
      * @since JDK 1.8
      */
-    public static String date2String(long date) {
-        return date2String(new Date(date), DEFAULT_DATE_FMT, null);
+    public static String date2String(long date, String format) {
+        return date2String(new Date(date), format, null);
     }
 
     /**
-     * date2String:(日期毫秒数转换为指定时区日期格式字符串（yyyy/MM/dd）). <br/>
+     * date2String:(日期毫秒数转换为：指定时区、指定日期格式字符串). <br/>
      *
      * @author 鲁济良
      * @param date
      *            长整型（毫秒）日期
+     * @param format
+     *            字符串格式
      * @param timeZone
      *            时区
-     * @return yyyy/MM/dd
+     * @return 日期格式字符串
      * @since JDK 1.8
      */
-    public static String date2String(long date, TimeZone timeZone) {
-        return date2String(new Date(date), DEFAULT_DATE_FMT, timeZone);
+    public static String date2String(long date, String format, TimeZone timeZone) {
+        return date2String(new Date(date), format, timeZone);
     }
 
     /**
-     * date2String:转换日期为缺省日期格式字符串. <br/>
-     * 
+     * date2String:(日期转化为指定格式字符串). <br/>
+     *
+     * @author 鲁济良
      * @param date
-     *            date
-     * @return String
-     * @since JDK 1.6
-     */
-    public static String date2String(Date date) {
-        return date2String(date, DEFAULT_DATE_FMT, null);
-    }
-
-    /**
-     * date2String:转换日期为缺省日期格式字符串 yyyyMMdd. <br/>
-     * 
-     * @param date
-     *            date
-     * @return String
-     * @since JDK 1.6
-     */
-    public static String date2String8(Date date) {
-        return date2String(date, DEFAULT_DATE2_FMT, null);
-    }
-
-    /**
-     * 
-     * date2String:转换日期为缺省日期格式字符串. <br/>
-     * 
-     * @param date
-     *            date
-     * @param timeZone
-     *            格式
-     * @return String
-     * @since JDK 1.6
-     */
-    public static String date2String(Date date, TimeZone timeZone) {
-        return date2String(date, DEFAULT_DATE_FMT, timeZone);
-    }
-
-    /**
-     * time2String:转换日期毫秒数为缺省日期格式字符串. <br/>
-     * 
-     * @param date
-     *            date
-     * @return String
-     * @since JDK 1.6
-     */
-    public static String time2String(long date) {
-        return date2String(new Date(date), DEFAULT_TIME_FMT, null);
-    }
-
-    /**
-     * 
-     * time2String:转换日期毫秒数为缺省日期格式字符串. <br/>
-     * 
-     * @param date
-     *            date
-     * @param timeZone
-     *            格式
-     * @return String
-     * @since JDK 1.6
-     */
-    public static String time2String(long date, TimeZone timeZone) {
-        return date2String(new Date(date), DEFAULT_TIME_FMT, timeZone);
-    }
-
-    /**
-     * time2String:转换日期为缺省日期格式字符串. <br/>
-     * 
-     * @param date
-     *            date
-     * @return String
-     * @since JDK 1.6
-     */
-    public static String time2String(Date date) {
-        return date2String(date, DEFAULT_TIME_FMT, null);
-    }
-
-    /**
-     * time2String:转换日期为缺省日期格式字符串. <br/>
-     * 
-     * @param date
-     *            date
-     * @param timeZone
-     *            格式
-     * @return String
-     * @since JDK 1.6
-     */
-    public static String time2String(Date date, TimeZone timeZone) {
-        return date2String(date, DEFAULT_TIME_FMT, timeZone);
-    }
-
-    /**
-     * date2String:转换日期为指定格式字符串. <br/>
-     * 
-     * @param date
-     *            date
+     *            被转化日期
      * @param format
-     *            格式
-     * @return String
-     * @since JDK 1.6
+     *            字符串格式
+     * @return 日期字符串
+     * @since JDK 1.8
      */
     public static String date2String(Date date, String format) {
         return date2String(date, format, null);
@@ -467,7 +380,7 @@ public final class DateUtils {
     }
 
     /**
-     * addDate:(调整时间). <br/>
+     * addDate:(按时区调整时间). <br/>
      *
      * @author 鲁济良
      * @param date
@@ -491,37 +404,6 @@ public final class DateUtils {
         cal.setTime(date);
         cal.add(field, amount);
         return cal.getTime();
-    }
-
-    /**
-     * compare:(比较2个同时区时间先后，). <br/>
-     *
-     * @author 鲁济良
-     * @param date1
-     *            时间字符串1
-     * @param date2
-     *            时间字符串2
-     * @return 如果时间1等于时间2，返回0，如果时间1小于时间2，返回负值，如果时间1大于时间2，返回正值
-     * @since JDK 1.8
-     * @see 注意:时间的格式必须在string2Date支持的格式范围内
-     */
-    public static int compare(String date1, String date2) {
-        return string2Date(date1).compareTo(string2Date(date2));
-    }
-
-    /**
-     * compare:(比较2个同时区时间先后，). <br/>
-     *
-     * @author 鲁济良
-     * @param date1
-     *            时间1
-     * @param date2
-     *            时间2
-     * @return 如果时间1等于时间2，返回0，如果时间1小于时间2，返回负值，如果时间1大于时间2，返回正值
-     * @since JDK 1.8
-     */
-    public static int compare(Date date1, Date date2) {
-        return date1.compareTo(date2);
     }
 
     /**
@@ -599,76 +481,45 @@ public final class DateUtils {
     }
 
     /**
-     * 把时间转成用户当地时间. <br/>
-     * 
+     * transformDate:(将日期转化为指定时区日期). <br/>
+     * TODO(描述这个方法的注意事项 – 可选).<br/>
+     *
+     * @author 鲁济良
      * @param dateSrc
-     *            待转换的时间。
      * @param dest
-     *            用户所在时区。
-     * @return 转换后的时间。
+     * @return
+     * @since JDK 1.8
      */
-    public static Date transformDate(Date dateSrc, TimeZone dest) {
+    public static Date transformDateTimeZone(Date dateSrc, TimeZone dest) {
         Calendar cal = Calendar.getInstance(dest);
         cal.setTimeInMillis(dateSrc.getTime());
-        int yy = cal.get(Calendar.YEAR);
+        /*        int yy = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int dd = cal.get(Calendar.DATE);
         int hours = cal.get(Calendar.HOUR_OF_DAY);
         int mm = cal.get(Calendar.MINUTE);
         int ss = cal.get(Calendar.SECOND);
-        int sss = cal.get(Calendar.MILLISECOND);
-        Calendar calBJ = Calendar.getInstance(TIMEZONEBEIJING);
+        int sss = cal.get(Calendar.MILLISECOND);*/
+        /*        Calendar calBJ = Calendar.getInstance(TIMEZONEBEIJING);
         calBJ.set(Calendar.YEAR, yy);
         calBJ.set(Calendar.MONTH, month);
         calBJ.set(Calendar.DATE, dd);
         calBJ.set(Calendar.HOUR_OF_DAY, hours);
         calBJ.set(Calendar.MINUTE, mm);
         calBJ.set(Calendar.SECOND, ss);
-        calBJ.set(Calendar.MILLISECOND, sss);
-        return calBJ.getTime();
+        calBJ.set(Calendar.MILLISECOND, sss);*/
+        cal.setTimeZone(TIMEZONEBEIJING);
+        return cal.getTime();
     }
 
     /**
-     * 校验起始日期和结束日期的合法性
-     * <p>
-     * 例如：起始日期距当前日期不超过12个月，起始结束日期间隔不超过3个月，调用<br>
-     * validateDateRange(startDate, endDate, currentDate, 3, 12). <br/>
-     * 
-     * @param startDate
-     *            起始日期
-     * @param endDate
-     *            结束日期
-     * @param currentDate
-     *            当前日期
-     * @param maxInterval
-     *            起始日期和结束日期的最大距离（单位为月）
-     * @param amount
-     *            起始日期和当前日期的最大距离（单位为月）
-     * @return boolean
-     */
-    public static boolean validateDateRange(Date startDate, Date endDate, Date currentDate, int maxInterval,
-            int amount) {
-        if (startDate.after(endDate)) {
-            return false;
-        }
-
-        if (currentDate.after(addDate(startDate, Calendar.MONTH, amount))) {
-            return false;
-        }
-
-        if (endDate.after(addDate(startDate, Calendar.MONTH, maxInterval))) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * startDayDate:获取一天的开始时间. <br/>
-     * 
+     * startDayDate:(获取当前时间所在天的开始时间). <br/>
+     *
+     * @author 鲁济良
      * @param date
-     *            日期
+     *            转换日期
      * @return 日期 + 00:00:00
+     * @since JDK 1.8
      */
     public static Date startDayDate(Date date) {
         Calendar cal = Calendar.getInstance();
@@ -681,25 +532,13 @@ public final class DateUtils {
     }
 
     /**
-     * fundsTranDate:日终对账获取订单信息的时间点. <br/>
-     * 
-     * @return 获取时间信息的时间点
-     */
-    public static Date fundsTranDate() {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
-        cal.set(Calendar.HOUR_OF_DAY, 15);
-        cal.set(Calendar.MINUTE, 00);
-        cal.set(Calendar.SECOND, 00);
-        return cal.getTime();
-    }
-
-    /**
-     * endDayDate:获取一天的结束时间. <br/>
-     * 
+     * endDayDate:(获取当前时间所在天的结束时间). <br/>
+     *
+     * @author 鲁济良
      * @param date
      *            日期
      * @return 日期 + 23:59:59
+     * @since JDK 1.8
      */
     public static Date endDayDate(Date date) {
         Calendar cal = Calendar.getInstance();
@@ -712,18 +551,18 @@ public final class DateUtils {
     }
 
     /**
-     * startDayOfMonth:获取上月第一天. <br/>
-     * 生成交易明细报表时抓取数据使用.<br/>
-     * 交易明细报表本月3号生成上月1号至月末的报表.<br/>
-     * 
+     * startDayOfMonth:(获取当前时间所在月第一天). <br/>
+     * TODO(描述这个方法的注意事项 – 可选).<br/>
+     *
+     * @author 鲁济良
      * @param date
-     *            当前系统时间
-     * @return 上月第一天
+     *            时间
+     * @return 当前时间本月第一天
+     * @since JDK 1.8
      */
     public static Date startDayOfMonth(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        cal.add(Calendar.MONTH, -1);
         cal.set(Calendar.DAY_OF_MONTH, 1);
         cal.set(Calendar.HOUR_OF_DAY, 00);
         cal.set(Calendar.MINUTE, 00);
@@ -733,19 +572,19 @@ public final class DateUtils {
     }
 
     /**
-     * endDayOfMonth:获取上月最后一天. <br/>
-     * 生成交易明细报表时抓取数据使用.<br/>
-     * 交易明细报表本月3号生成上月1号至月末的报表.<br/>
-     * 
+     * startDayOfMonth:(获取当前时间所在月最后一天). <br/>
+     *
+     * @author 鲁济良
      * @param date
-     *            当前系统时间
-     * @return 上月最后一天
+     *            时间
+     * @return 当前时间本月最后一天
+     * @since JDK 1.8
      */
     public static Date endDayOfMonth(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.add(Calendar.DAY_OF_YEAR, -1);
+        cal.add(Calendar.DAY_OF_MONTH, -1);
         cal.set(Calendar.HOUR_OF_DAY, 23);
         cal.set(Calendar.MINUTE, 59);
         cal.set(Calendar.SECOND, 59);
@@ -754,64 +593,13 @@ public final class DateUtils {
     }
 
     /**
-     * startDayOfCurrentMonth:获取当月的第一天. <br/>
+     * startDayOfYear:(获取当前时间所在年的开始日期). <br/>
      *
+     * @author 鲁济良
      * @param date
-     *            系统时间
-     * @return 当月第一天
-     */
-    public static Date startDayOfCurrentMonth(Date date) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.MONTH, 0);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.set(Calendar.HOUR_OF_DAY, 00);
-        cal.set(Calendar.MINUTE, 00);
-        cal.set(Calendar.SECOND, 00);
-        cal.set(Calendar.MILLISECOND, 000);
-        return cal.getTime();
-    }
-
-    /**
-     * lastMonth:当前月上月日期“YYYYMM”. <br/>
-     * 
-     * @return .
-     */
-    public static String lastMonth() {
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.MONTH, -1);
-        int month = c.get(Calendar.MONTH) + 1;
-
-        if (month < 10) {
-            return c.get(Calendar.YEAR) + "0" + month;
-        } else {
-            return c.get(Calendar.YEAR) + "" + month;
-        }
-    }
-
-    /**
-     * theMonthBeforeLast:上上月日期. <br/>
-     *
-     * @param pattern
-     *            pattern
-     * @return String
-     */
-    public static String theMonthBeforeLast(String pattern) {
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.MONTH, -2);
-        Date date = c.getTime();
-        SimpleDateFormat s = new SimpleDateFormat(pattern);
-        String lastmonth = s.format(date);
-        return lastmonth;
-
-    }
-
-    /**
-     * startDayOfYear:当前时间所在年的开始日期. <br/>
-     * 
-     * @param date
-     *            date
-     * @return Date
+     *            时间
+     * @return 当前时间所在年的开始日期
+     * @since JDK 1.8
      */
     public static Date startDayOfYear(Date date) {
 
@@ -828,253 +616,37 @@ public final class DateUtils {
     }
 
     /**
-     * 
-     * lastMonth:获取当前时间的上个月. <br/>
-     * 
-     * @param pattern
-     *            时间模板
-     * @return 上个月
-     */
-    public static String lastMonth(String pattern) {
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.MONTH, -1);
-        Date date = c.getTime();
-        SimpleDateFormat s = new SimpleDateFormat(pattern);
-        String lastmonth = s.format(date);
-        return lastmonth;
-    }
-
-    /**
-     * initDate:(这里用一句话描述这个方法的作用). <br/>
+     * theCurrentBeforeNdayWithFormat:(获取当前日期前N天的日期，指定时间字符串). <br/>
      *
-     * @param initdate
-     *            initdate
-     * @return Date
-     */
-    public static Date initDate(String initdate) {
-        int hour = Integer.parseInt(initdate);
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, hour);
-        c.set(Calendar.MINUTE, 00);
-        c.set(Calendar.SECOND, 00);
-        c.set(Calendar.MILLISECOND, 000);
-
-        return c.getTime();
-    }
-
-    /**
-     * getCurrentMonthFirstDay:(这里用一句话描述这个方法的作用). <br/>
-     *
-     * @param yearString
-     *            yearString
-     * @param monthString
-     *            monthString
-     * @return Date
-     */
-    public static Date getCurrentMonthFirstDay(String yearString, String monthString) {
-        int year = Integer.parseInt(yearString);
-        int month = Integer.parseInt(monthString);
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month - 1);
-        c.set(Calendar.DAY_OF_MONTH, 01);
-        c.set(Calendar.HOUR_OF_DAY, 00);
-        c.set(Calendar.MINUTE, 00);
-        c.set(Calendar.SECOND, 00);
-        c.set(Calendar.MILLISECOND, 000);
-        return c.getTime();
-    }
-
-    /**
-     * getCurrentYearFirstDay:(这里用一句话描述这个方法的作用). <br/>
-     *
-     * @param yearString
-     *            yearString
-     * @return Date
-     */
-    public static Date getCurrentYearFirstDay(String yearString) {
-        int year = Integer.parseInt(yearString);
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, 0);
-        c.set(Calendar.DAY_OF_MONTH, 01);
-        c.set(Calendar.HOUR_OF_DAY, 00);
-        c.set(Calendar.MINUTE, 00);
-        c.set(Calendar.SECOND, 00);
-        c.set(Calendar.MILLISECOND, 000);
-        return c.getTime();
-    }
-
-    /**
-     * getCurrentMonthLastDay:(这里用一句话描述这个方法的作用). <br/>
-     *
-     * @param date
-     *            date
-     * @return Date
-     */
-    public static Date getCurrentMonthLastDay(Date date) {
-        Calendar cDay1 = Calendar.getInstance();
-        cDay1.setTime(date);
-        int lastDay = cDay1.getActualMaximum(Calendar.DAY_OF_MONTH);
-        cDay1.set(Calendar.DAY_OF_MONTH, lastDay);
-        cDay1.set(Calendar.HOUR_OF_DAY, 23);
-        cDay1.set(Calendar.MINUTE, 59);
-        cDay1.set(Calendar.SECOND, 59);
-        cDay1.set(Calendar.MILLISECOND, 999);
-        return cDay1.getTime();
-
-    }
-
-    /**
-     * getNextMonthFirstDay:(这里用一句话描述这个方法的作用). <br/>
-     *
-     * @param yearString
-     *            yearString
-     * @param monthString
-     *            monthString
-     * @return Date
-     */
-    public static Date getNextMonthFirstDay(String yearString, String monthString) {
-        int year = Integer.parseInt(yearString);
-        int month = Integer.parseInt(monthString);
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.DAY_OF_MONTH, 01);
-        c.set(Calendar.HOUR_OF_DAY, 00);
-        c.set(Calendar.MINUTE, 00);
-        c.set(Calendar.SECOND, 00);
-        c.set(Calendar.MILLISECOND, 000);
-        return c.getTime();
-
-    }
-
-    /**
-     * getCurrentTime:(这里用一句话描述这个方法的作用). <br/>
-     *
-     * @return String
-     */
-    public static String getCurrentTime() {
-        SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd");
-        String currenttime = s.format(new Date());
-
-        return currenttime;
-    }
-
-    /**
-     * getCurrentTime1:(这里用一句话描述这个方法的作用). <br/>
-     * 
-     * @return String
-     */
-    public static String getCurrentTime1() {
-        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
-        String currenttime = s.format(new Date());
-
-        return currenttime;
-    }
-
-    /**
-     * theCurrentBeforeNday:当前日期上N天的日期. <br/>
-     *
+     * @author 鲁济良
      * @param dayNum
-     *            dayNum
-     * @return String
-     * @since JDK 1.6
+     *            天数单位
+     * @param format
+     *            时间字符串格式
+     * @return 时间字符串
+     * @since JDK 1.8
      */
-    public static String theCurrentBeforeNday(int dayNum) {
+    public static String theCurrentBeforeNdayWithFormat(int dayNum, String format) {
+        
         Calendar c = Calendar.getInstance();
 
         c.setTime(new Date());
         c.add(Calendar.DAY_OF_YEAR, -dayNum);
         Date date = c.getTime();
-        SimpleDateFormat s = new SimpleDateFormat(DateUtils.DEFAULT_DATE1_FMT);
-        String lastmonth = s.format(date);
-        return lastmonth;
-
-    }
-
-    /**
-     * theCurrentBeforeNday:当前日期上N天的日期. <br/>
-     * 
-     * @param fnt
-     *            :日期格式
-     * @param dayNum
-     *            dayNum
-     * @return String
-     * @since JDK 1.6
-     */
-    public static String theCurrentBeforeNdayWithFnt(int dayNum, String fnt) {
-        Calendar c = Calendar.getInstance();
-
-        c.setTime(new Date());
-        c.add(Calendar.DAY_OF_YEAR, -dayNum);
-        Date date = c.getTime();
-        SimpleDateFormat s = new SimpleDateFormat(fnt);
+        SimpleDateFormat s = new SimpleDateFormat(format);
         String lastmonth = s.format(date);
         return lastmonth;
     }
 
-    /**
-     * theCurrentBeforeNYear:当前日期上N年前的日期. <br/>
-     * 
-     * @param yearNum
-     *            yearNum
-     * @return Date
-     * @since JDK 1.6
-     */
-    public static Date theCurrentBeforeNYear(int yearNum) {
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, c.get(Calendar.YEAR) - yearNum);
-        return c.getTime();
-    }
 
     /**
-     * lastStartDay:获取上一天开始. <br/>
-     * 生成交易明细报表时抓取数据使用.<br/>
-     * 
-     * @param date
-     *            时间
-     * @return 上月第一天
-     * @since JDK 1.6
-     */
-    public static Date lastDayStart(Date date) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.DAY_OF_MONTH, -1);
-        cal.set(Calendar.HOUR_OF_DAY, 00);
-        cal.set(Calendar.MINUTE, 00);
-        cal.set(Calendar.SECOND, 00);
-        cal.set(Calendar.MILLISECOND, 000);
-        return cal.getTime();
-    }
-
-    /**
-     * lastendDay:上一天的最后. <br/>
-     * 生成交易明细报表时抓取数据使用.<br/>
-     * 
-     * @param date
-     *            时间
-     * @return 上一天的最后
-     * @since JDK 1.6
-     */
-    public static Date lastDayEnd(Date date) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.DAY_OF_MONTH, -1);
-        cal.set(Calendar.HOUR_OF_DAY, 23);
-        cal.set(Calendar.MINUTE, 59);
-        cal.set(Calendar.SECOND, 59);
-        cal.set(Calendar.MILLISECOND, 999);
-        return cal.getTime();
-    }
-
-    /**
-     * 
-     * @param startDate
-     *            yyyymmdd
-     * @param endDate
-     *            yyyymmdd
-     * @return endDate - startDate =天数
+     * daysBetween:(获取两个时间间隔天数). <br/>
+     *
+     * @author 鲁济良
+     * @param startDate 时间1（yyyyMMdd）
+     * @param endDate 时间2（yyyyMMdd）
+     * @return 天数间隔
+     * @since JDK 1.8
      */
     public static int daysBetween(String startDate, String endDate) {
         Date start = string2Date(startDate, DEFAULT_DATE2_FMT);
@@ -1083,71 +655,4 @@ public final class DateUtils {
         return Integer.parseInt(String.valueOf(betweendays));
     }
 
-    /**
-     * dateToString:转换日期为缺省日期格式字符串. <br/>
-     * 
-     * @param date
-     *            date
-     * @return String
-     * @since JDK 1.6
-     */
-    public static String dateToString(Date date) {
-        return date2String(date, DEFAULT_DATE2_FMT, null);
-    }
-
-    /**
-     * dateToString2:转换日期为缺省日期格式字符串. <br/>
-     * 
-     * @param date
-     *            date
-     * @return String
-     * @since JDK 1.6
-     */
-    public static String dateToString2(Date date) {
-        return date2String(date, DEFAULT_DATETIME3_FMT, null);
-    }
-
-    /**
-     * dateToString3:转换日期为缺省日期格式字符串. <br/>
-     * 
-     * @param date
-     *            date
-     * @return String
-     * @since JDK 1.6
-     */
-    public static String dateToString3(Date date) {
-        return date2String(date, DEFAULT_DATE1_FMT, null);
-    }
-
-    //时间的格式必须为YYYYMMDD类型
-    /**
-     * dateFormatValidate:日期格式必须为YYYYMMDD格式. <br/>
-     *
-     * @param date
-     *            date
-     * @return Boolean
-     * @since JDK 1.6
-     */
-    public static Boolean dateFormatValidate(String date) {
-        Boolean flag = true;
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat(DateUtils.DEFAULT_DATE2_FMT);
-            sdf.setLenient(false);
-            sdf.parse(date);
-        } catch (Exception e) {
-            flag = false;
-        }
-        return flag;
-    }
-
-    /**
-     * getHour:获取当前时间的小时. <br/>
-     *
-     * @return int
-     * @since JDK 1.6
-     */
-    public static int getHour() {
-        Calendar cal = Calendar.getInstance();
-        return cal.get(Calendar.HOUR_OF_DAY);
-    }
 }
