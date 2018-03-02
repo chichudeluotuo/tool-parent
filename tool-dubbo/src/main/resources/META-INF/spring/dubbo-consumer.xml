@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       http://code.alibabatech.com/schema/dubbo
+       http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <description>Configuration of EZTDG</description>
+    <!-- <dubbo:consumer filter="consumerFilter"/> -->
+	<dubbo:consumer timeout="60000" check="false"/>
+    <!--EZSEC-->
+    <dubbo:registry id="ezsec" protocol="zookeeper" address="${ezsec.register.address}" default="true"/>
+    <dubbo:reference registry="ezsec" id="hsmService" interface="com.bocsoft.bocebiz.ezsec.hsm.HsmService" check="false"  timeout="60000" />
+    <beans profile="dev">
+        <!-- EZTDG -->
+        <dubbo:registry id="eztdg_dev" protocol="zookeeper" address="${tdg.register.address}" default="true"/>
+        <!-- VCP -->
+        <dubbo:registry id="ezvcp_dev" protocol="zookeeper" address="${ezvcp.register.address}" default="true"/>
+        <!-- EZUC -->
+        <dubbo:registry id="ezuc_dev" protocol="zookeeper" address="${ezuc.register.address}"/>
+        <!-- EZDB -->
+        <dubbo:registry id="ezdb_dev" protocol="zookeeper" address="${register.address}" default="true"/>
+        
+        <!-- EZDB -->
+         <!-- 调用Order服务. -->
+        <!-- <dubbo:reference id="orderService_dev" registry="ezdb_dev" interface="com.bocsoft.bocebiz.ezdb.order.operate.OrderService" />
+       	 商品servcie
+        <dubbo:reference id="goodsService_dev" registry="ezdb_dev" interface="com.bocsoft.bocebiz.ezdb.order.goods.GoodsService" />  
+      	  赎回service
+        <dubbo:reference id="redeemOrderService_dev" registry="ezdb_dev" interface="com.bocsoft.bocebiz.ezdb.order.redeem.RedeemOrderService" />
+       	 申购service
+        <dubbo:reference id="subscribeOrderService_dev" registry="ezdb_dev" interface="com.bocsoft.bocebiz.ezdb.order.subscribe.SubscribeOrderService" /> -->
+        
+        <!-- VCP -->
+        <!-- vcp卡信息服务 -->
+        <dubbo:reference id="cardService_dev" registry="ezvcp_dev" interface="com.bocsoft.ezvcp.cmi.service.cardservice.CardService" />
+        <!-- vcp他行支付请求(挡板测试用) --> 
+        <dubbo:reference id="paySubmitService_dev" registry="ezvcp_dev" interface="com.bocsoft.ezvcp.tmi.service.paysubmit.PaySubmitService" />
+        <!-- 调用vcp,增加和删除卡服务 -->
+        <dubbo:reference id="actSrvService_dev" registry="ezvcp_dev" interface="com.bocsoft.ezvcp.cmi.service.actsrv.ActSrvService" />
+        <!-- 调用VCP，验密接口 -->
+        <dubbo:reference id="payPassRequestService_dev" registry="ezvcp_dev" interface="com.bocsoft.ezvcp.cmi.service.userservice.PayPassRequestService" />
+        <!-- 调用VCP，校验短信验证码接口 -->
+        <dubbo:reference id="sendValidMsgService_dev" registry="ezvcp_dev" interface="com.bocsoft.ezvcp.cmi.service.sendmsgservice.SendValidMsgService" />
+        <!-- VCP客户银行卡的客户信息 -->
+        <dubbo:reference id="cardQueryFacade_dev" registry="ezvcp_dev" interface="com.bocsoft.ezvcp.cmi.service.cardqueryservice.CardQueryFacade" />
+        <!-- VCP网银客户银行卡的客户信息 -->
+        <dubbo:reference id="bocnetCardService_dev" registry="ezvcp_dev" interface="com.bocsoft.ezvcp.cmi.service.cardservice.BocnetCardService" />        
+        <!-- 调用VCP，借记卡密码转加密接口 -->
+        <dubbo:reference id="parCoreSignService_dev" registry="ezvcp_dev" interface="com.bocsoft.ezvcp.platformmi.service.parupmpsign.ParCoreSignService" />
+        
+        <!-- EZUC -->
+        <dubbo:reference  id="ezucQueryUserAllInfoService_dev" registry="ezuc_dev"  interface="com.bocsoft.bocebiz.ebuc.service.dubbo.EzucQueryUserAllInfoService" check="false"/>
+        <!-- EZUC -->
+        <!-- <dubbo:reference  id="ezucBocnetInfoService_dev" registry="ezuc_dev"  interface="com.bocsoft.bocebiz.ebuc.service.dubbo.EzucBocnetInfoService" check="false"/> -->
+        <!-- EZUC 根据uid查询个人用户身份信息实名信息 -->
+        <dubbo:reference id="ezucPersonalUserInfoService_dev" registry="ezuc_dev"  interface="com.bocsoft.bocebiz.ebuc.service.dubbo.EzucPersonalUserInfoService" check="false"/>
+        <!-- EZUC风险等级 -->
+        <dubbo:reference id="ezucUserRiskService_dev" registry="ezuc_dev"  interface="com.bocsoft.bocebiz.ebuc.service.provider.EzucUserRiskService" check="false"/>
+                
+        <!-- TDG -->
+        <dubbo:reference id="interactionLauncher_dev" registry="eztdg_dev" interface="com.bocsoft.gaea.rudiment.interaction.InteractionLauncher" version="ezdb" />
+		
+        <!--&lt;!&ndash;EZSEC&ndash;&gt;
+        <dubbo:registry id="ezsec_dev" protocol="zookeeper" address="${ezuc.register.address}" default="true"/>
+        <dubbo:reference registry="ezsec_dev" id="hsmService" interface="com.bocsoft.bocebiz.ezsec.hsm.HsmService" check="false"  timeout="60000" />
+ -->
+    </beans>
+    <beans profile="ci">
+    <!-- EZTDG -->
+        <dubbo:registry id="eztdg_ci" protocol="zookeeper" address="${tdg.register.address}" default="true"/>
+        <!-- VCP -->
+        <dubbo:registry id="ezvcp_ci" protocol="zookeeper" address="${ezvcp.register.address}" default="true"/>
+        <!-- EZUC -->
+        <dubbo:registry id="ezuc_ci" protocol="zookeeper" address="${ezuc.register.address}"/>
+        <!-- EZDB -->
+        <dubbo:registry id="ezdb_ci" protocol="zookeeper" address="${register.address}" default="true"/>
+        
+        <!-- EZDB -->
+         <!-- 调用Order服务. -->
+        <!-- <dubbo:reference id="orderService_ci" registry="ezdb_ci" interface="com.bocsoft.bocebiz.ezdb.order.operate.OrderService" />
+                        商品service
+        <dubbo:reference id="goodsService_ci" registry="ezdb_ci" interface="com.bocsoft.bocebiz.ezdb.order.goods.GoodsService" />  
+       	 赎回service
+        <dubbo:reference id="redeemOrderService_ci" registry="ezdb_ci" interface="com.bocsoft.bocebiz.ezdb.order.redeem.RedeemOrderService" />
+       	 申购service
+        <dubbo:reference id="subscribeOrderService_ci" registry="ezdb_ci" interface="com.bocsoft.bocebiz.ezdb.order.subscribe.SubscribeOrderService" /> -->
+        
+        <!-- VCP -->
+        <!-- vcp卡信息服务 -->
+        <dubbo:reference id="cardService_ci" registry="ezvcp_ci" interface="com.bocsoft.ezvcp.cmi.service.cardservice.CardService" />
+        <!-- vcp他行支付请求(挡板测试用) --> 
+        <dubbo:reference id="paySubmitService_ci" registry="ezvcp_ci" interface="com.bocsoft.ezvcp.tmi.service.paysubmit.PaySubmitService" />
+        <!-- 调用vcp,增加和删除卡服务 -->
+        <dubbo:reference id="actSrvService_ci" registry="ezvcp_ci" interface="com.bocsoft.ezvcp.cmi.service.actsrv.ActSrvService" />
+        <!-- 调用VCP，验密接口 -->
+        <dubbo:reference id="payPassRequestService_ci" registry="ezvcp_ci" interface="com.bocsoft.ezvcp.cmi.service.userservice.PayPassRequestService" />
+        <!-- 调用VCP，校验短信验证码接口 -->
+        <dubbo:reference id="sendValidMsgService_ci" registry="ezvcp_ci" interface="com.bocsoft.ezvcp.cmi.service.sendmsgservice.SendValidMsgService" />
+        <!-- VCP客户银行卡的客户信息 -->
+        <dubbo:reference id="cardQueryFacade_ci" registry="ezvcp_ci" interface="com.bocsoft.ezvcp.cmi.service.cardqueryservice.CardQueryFacade" />
+		 <!-- VCP网银客户银行卡的客户信息 -->
+        <dubbo:reference id="bocnetCardService_ci" registry="ezvcp_ci" interface="com.bocsoft.ezvcp.cmi.service.cardservice.BocnetCardService" />
+       
+		<!-- 调用VCP，借记卡密码转加密接口 -->
+        <dubbo:reference id="parCoreSignService_ci" registry="ezvcp_ci" interface="com.bocsoft.ezvcp.platformmi.service.parupmpsign.ParCoreSignService" />
+
+        <!-- EZUC -->
+        <dubbo:reference id="ezucQueryUserAllInfoService_ci" registry="ezuc_ci" interface="com.bocsoft.bocebiz.ebuc.service.dubbo.EzucQueryUserAllInfoService" check="false"/>
+         <!-- EZUC -->
+        <!-- <dubbo:reference  id="ezucBocnetInfoService_ci" registry="ezuc_ci"  interface="com.bocsoft.bocebiz.ebuc.service.dubbo.EzucBocnetInfoService" check="false"/> -->
+        
+        <!-- EZUC 根据uid查询个人用户身份信息实名信息 -->
+        <dubbo:reference id="ezucPersonalUserInfoService_ci" registry="ezuc_ci" interface="com.bocsoft.bocebiz.ebuc.service.dubbo.EzucPersonalUserInfoService" check="false"/>
+        <!-- EZUC风险等级 -->
+        <dubbo:reference id="ezucUserRiskService_ci" registry="ezuc_ci"  interface="com.bocsoft.bocebiz.ebuc.service.provider.EzucUserRiskService" check="false"/>
+         
+        <!-- TDG -->
+        <dubbo:reference id="interactionLauncher_ci" registry="eztdg_ci" interface="com.bocsoft.gaea.rudiment.interaction.InteractionLauncher" version="ezdb" />
+
+    </beans>
+    <beans profile="sit">
+     <!-- EZTDG -->
+        <dubbo:registry id="eztdg_sit" protocol="zookeeper" address="${tdg.register.address}" default="true"/>
+        <!-- VCP -->
+        <dubbo:registry id="ezvcp_sit" protocol="zookeeper" address="${ezvcp.register.address}" default="true"/>
+        <!-- EZUC -->
+        <dubbo:registry id="ezuc_sit" protocol="zookeeper" address="${ezuc.register.address}"/>
+        <!-- EZDB -->
+        <dubbo:registry id="ezdb_sit" protocol="zookeeper" address="${register.address}" default="true"/>
+         
+        <!-- EZDB -->
+         <!-- 调用Order服务. -->
+        <!-- <dubbo:reference id="orderService_sit" registry="ezdb_sit" interface="com.bocsoft.bocebiz.ezdb.order.operate.OrderService" />
+        	商品servcie
+        <dubbo:reference id="goodsService_sit" registry="ezdb_sit" interface="com.bocsoft.bocebiz.ezdb.order.goods.GoodsService" />  
+       	 赎回service
+        <dubbo:reference id="redeemOrderService_sit" registry="ezdb_sit" interface="com.bocsoft.bocebiz.ezdb.order.redeem.RedeemOrderService" />
+       	 申购service
+        <dubbo:reference id="subscribeOrderService_sit" registry="ezdb_sit" interface="com.bocsoft.bocebiz.ezdb.order.subscribe.SubscribeOrderService" /> -->
+        
+        <!-- VCP -->
+        <!-- vcp卡信息服务 -->
+        <dubbo:reference id="cardService_sit" registry="ezvcp_sit" interface="com.bocsoft.ezvcp.cmi.service.cardservice.CardService" />
+        <!-- vcp他行支付请求(挡板测试用) --> 
+        <dubbo:reference id="paySubmitService_sit" registry="ezvcp_sit" interface="com.bocsoft.ezvcp.tmi.service.paysubmit.PaySubmitService" />
+        <!-- 调用vcp,增加和删除卡服务 -->
+        <dubbo:reference id="actSrvService_sit" registry="ezvcp_sit" interface="com.bocsoft.ezvcp.cmi.service.actsrv.ActSrvService" />
+        <!-- 调用VCP，验密接口 -->
+        <dubbo:reference id="payPassRequestService_sit" registry="ezvcp_sit" interface="com.bocsoft.ezvcp.cmi.service.userservice.PayPassRequestService" />
+        <!-- 调用VCP，校验短信验证码接口 -->
+        <dubbo:reference id="sendValidMsgService_sit" registry="ezvcp_sit" interface="com.bocsoft.ezvcp.cmi.service.sendmsgservice.SendValidMsgService" />
+        <!-- VCP客户银行卡的客户信息 -->
+        <dubbo:reference id="cardQueryFacade_sit" registry="ezvcp_sit" interface="com.bocsoft.ezvcp.cmi.service.cardqueryservice.CardQueryFacade" />
+		 <!-- VCP网银客户银行卡的客户信息 -->
+        <dubbo:reference id="bocnetCardService_sit" registry="ezvcp_sit" interface="com.bocsoft.ezvcp.cmi.service.cardservice.BocnetCardService" />
+       
+		<!-- 调用VCP，借记卡密码转加密接口 -->
+        <dubbo:reference id="parCoreSignService_sit" registry="ezvcp_sit" interface="com.bocsoft.ezvcp.platformmi.service.parupmpsign.ParCoreSignService" />
+
+        <!-- EZUC -->
+        <dubbo:reference id="ezucQueryUserAllInfoService_sit" registry="ezuc_sit" interface="com.bocsoft.bocebiz.ebuc.service.dubbo.EzucQueryUserAllInfoService" check="false"/>
+        <!-- EZUC -->
+        <!-- <dubbo:reference  id="ezucBocnetInfoService_sit" registry="ezuc_sit"  interface="com.bocsoft.bocebiz.ebuc.service.dubbo.EzucBocnetInfoService" check="false"/> -->
+        
+        <!-- EZUC 根据uid查询个人用户身份信息实名信息 -->
+        <dubbo:reference id="ezucPersonalUserInfoService_sit" registry="ezuc_sit" interface="com.bocsoft.bocebiz.ebuc.service.dubbo.EzucPersonalUserInfoService" check="false"/>
+        <!-- EZUC风险等级 -->
+        <dubbo:reference id="ezucUserRiskService_sit" registry="ezuc_sit"  interface="com.bocsoft.bocebiz.ebuc.service.provider.EzucUserRiskService" check="false"/>
+        <!-- TDG -->
+        <dubbo:reference id="interactionLauncher_sit" registry="eztdg_sit" interface="com.bocsoft.gaea.rudiment.interaction.InteractionLauncher" version="ezdb" />
+		
+    </beans>
+    <beans profile="production">
+        <!--EZTDG  --> 
+        <dubbo:reference id="interactionLauncher"
+                         interface="com.bocsoft.gaea.rudiment.interaction.InteractionLauncher" version="ezdb"/>
+        <!-- EZVCP -->
+    </beans>
+</beans>

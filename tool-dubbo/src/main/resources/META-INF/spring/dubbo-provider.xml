@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       http://code.alibabatech.com/schema/dubbo
+       http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <description>Configuration of Services Registered to dubbo</description>
+    <!-- <dubbo:provider filter="providerFilter"/> -->
+    <dubbo:registry protocol="zookeeper" address="${register.address}" default="true"/>
+    
+    <!-- 基金流程Service -->
+    <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.sign.FundsSignService" ref="fundsSignService"/>
+    <!-- 用户签约Service -->
+    <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.sign.UserSignService" ref="userSignService"/>
+    <!-- 基金签约Service -->
+    <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.sign.FundsReturnResultService" ref="fundsReturnResultService"/>
+    <!-- 基金支付确认Service -->
+    <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.othercardpay.QueryFundsPayService" ref="queryFundsPayService"/>
+    <!-- 支付确认查询Service -->
+    
+    <!-- 发送短信验证码接口 -->
+    <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.subscribe.SendPhoneMessageForBocopService" ref="sendPhoneMessageForBocopService"/>
+    <!-- 基金返回结果Service -->
+    <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.othercardpay.FundsApplyResultService" ref="fundsApplyResultService"/>
+    <!-- ****基金申购开始**** -->
+    <!-- 给渠道提供的申购请求接口 -->
+    <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.subscribe.SubscribeForBocopService" ref="subscribeForBocopService"/>
+    <!-- 给funds提供的申购请求结果接口 -->
+    <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.subscribe.SubscribeForFundsService" ref="subscribeForFundsService"/>
+    <!-- 根据订单编号查询订单信息 -->
+    <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.subscribe.QueryOrderInfoService" ref="queryOrderInfoService"/>
+    <!-- ****基金申购结束**** -->
+    
+    <!--基金他行支付请求Service -->
+     <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.othercardpay.FundsApplyService" ref="fundsApplyService"/>
+     
+     <!-- ****基金赎回申请开始**** -->
+     <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.redeem.RedeemApplyForBocopService" ref="redeemApplyForBocopService"/>
+     <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.redeem.RedeemHandleForFundsService" ref="redeemHandleForFundsService"/>
+     <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.redeem.RedeemResultQueryForBocopService" ref="redeemResultQueryForBocopService"/>
+     <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.redeem.RedeemTimesLimitService" ref="redeemTimesLimitService"/>
+<!-- ****基金赎回申请结束**** -->
+
+	 <!-- ****交易历史查询**** -->
+	 <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.order.OrderHistoryService" ref="orderHistoryService"/>
+	 <!-- ****查询历史订单详细信息接口 **** -->
+	 <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.order.OrderHistoryDetailsService" ref="orderHistoryDetailsService"/>
+    <!-- ****持仓信息查询**** -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.property.FundsPropertyQueryService" ref="fundsPropertyQueryService"/>
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.replacecard.ReplaceCardService" ref="replaceCardService"/>
+    <!-- ****交易状态查询**** -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.status.TranStatusQueryService" ref="tranStatusQueryService"/>
+    <!-- 赎回失败换卡异步接口 -->
+	<!--===============vcp验证服务===========================  -->
+    <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.othercardconfirmation.ConfirmationService" ref="confirmationService"/>
+	<!-- vcp验证支付密码接口服务 -->
+    <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.othercardconfirmation.ConfirmationPassWordService" ref="confirmationPasswordService"/>
+    <!-- vcp验证手机号验证码接口服务 -->
+    <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.othercardconfirmation.ConfirmationPhoneService" ref="confirmationPhoneService"/>
+	
+    <!--VCP他行卡支付请求Service  -->
+    <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.subscribe.PayRequestACService" ref="payRequestACService"/>
+    <dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.othercardconfirmation.ConfirmationService" ref="confirmationService"/>
+	<!-- 签约关系查询接口 -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.selectsign.SelectSignRelationService" ref="selectSignRelationService"/>
+	<!-- 签约结果查询接口 -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.selectsign.SelectSignResultService" ref="selectSignResultService"/>
+	<!-- 产品收益状况查询接口 -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.income.ProductIncomeQueryService" ref="productIncomeQueryService"/>
+	<!-- 赎回失败订单换卡提醒接口 -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.redeem.RedeemChangeCardWarnService" ref="redeemChangeCardWarnService"/>
+	<!-- 客户收益流水查询接口 -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.income.FundsIncomeDetailService" ref="fundsIncomeDetailService"/>
+	<!-- TDG回调接口 -->
+	<dubbo:service interface="com.bocsoft.gaea.rudiment.interaction.InteractionResponser" ref="interactionResponser" group="ezdb"/>
+	<!-- marketcode补填接口 -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.marketCode.MarketCodeUseService" ref="marketCodeUseService" />
+	<!-- 申购剩余额度 -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.subscribe.QuerySubscribeAmountLimitService" ref="querySubscribeAmountLimitService" />
+	<!-- 查询产品特约码开关及使用情况接口 -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.invitecode.InviteCodeService" ref="inviteCodeService" />
+	
+	<!--===============批量服务，X8改造===========================  -->
+	<!-- ezdb batchs service -->
+	<!-- 日终产品信息更新 -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.goodsInfo.GoodsInfoFromTdgService" ref="goodsInfoFromTdgService" />
+	<!-- 日终未明状态更新-->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.status.TranUnknownStatusQueryService" ref="tranUnknownStatusQueryService" />
+	<!-- 换卡状态更新-->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.selectsign.QueryReplaceCardStatusService" ref="queryReplaceCardStatusService" />
+	<!-- VCP卡服务状态更新-->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.sign.VcpCardFlgService" ref="vcpCardFlgService" />
+	
+	<!--贷款申请接口-->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.loan.LoanApplyService" ref="loanApplyService" />
+	<!-- 贷款申请结果通知 -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.loan.LoanApplyForRLCMSService" ref="loanApplyForRLCMSService" />
+	<!-- 放还款账户修改结果通知 -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.loan.UpdRefundAccountAsyncService" ref="updRefundAccountAsyncService" />
+	<!-- 是否首次贷款查询 -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.loan.QueryFirstLoanService" ref="queryFirstLoanService" />
+	<!-- 查询贷款利率-->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.loan.QueryLoanRateService" ref="queryLoanRateService" />
+	<!-- 未明贷款查询 -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.loan.LoanUnknownStatusQueryService" ref="loanUnknownStatusQueryService" />
+	<!-- 提前还款 -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.loan.RepayLoanService" ref="repayLoanService" />
+	<!-- 查询贷款状态 -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.loan.QueryLoanResultService" ref="queryLoanResultService" />
+	<!-- 查询贷款列表 -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.loan.QueryLoanInfoService" ref="queryLoanInfoService" />
+	<!-- 查询贷款参数和最大可贷金额 -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.loan.QueryLoanParameterAndAvailableService" ref="queryLoanParameterAndAvailableService" />
+	<!-- 修改还款账号 -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.loan.UpdateRefundAccountService" ref="updateRefundAccountService" />
+	<!-- P606 增加查询浮动盈亏接口 -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.income.FloatProfitAndLossService" ref="floatProfitAndLossService"/>
+	
+	<!-- P606 增加可赎回份额明细查询接口 -->
+	<dubbo:service interface="com.bocsoft.bocebiz.ezdb.funds.redeem.RedeemShareQueryForBocopService" ref="redeemShareQueryForBocopService"/>
+</beans>

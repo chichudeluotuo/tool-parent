@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                     http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                     http://www.springframework.org/schema/tx
+					http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <description>Configuration of Database and Transaction</description>
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <property name="url" value="${druid.url}"/>
+        <property name="username" value="${druid.username}"/>
+        <property name="password" value="${druid.password}"/>
+        <property name="filters" value="${druid.filters}"/>
+        <property name="connectionProperties" value="${druid.connectionProperties}"/>
+
+        <property name="maxActive" value="${druid.maxActive}"/>
+        <property name="initialSize" value="${druid.initialSize}"/>
+        <property name="maxWait" value="${druid.maxWait}"/>
+        <property name="minIdle" value="${druid.minIdle}"/>
+
+        <property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}"/>
+        <property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}"/>
+
+        <property name="validationQuery" value="${druid.validationQuery}"/>
+        <property name="testWhileIdle" value="${druid.testWhileIdle}"/>
+        <property name="testOnBorrow" value="${druid.testOnBorrow}"/>
+        <property name="testOnReturn" value="${druid.testOnReturn}"/>
+        <property name="maxOpenPreparedStatements" value="${druid.maxOpenPreparedStatements}"/>
+
+        <property name="removeAbandoned" value="${druid.removeAbandoned}"/>
+        <property name="removeAbandonedTimeout" value="${druid.removeAbandonedTimeout}"/>
+        <property name="logAbandoned" value="${druid.logAbandoned}"/>
+        <property name="connectProperties" value="config.decrypt=true"></property><!-- 设置是否使用加密模块解密 -->
+        <!-- 数据库加密设置-->
+        <property name="proxyFilters">
+            <list>
+                <bean class="com.bocsoft.bocebiz.ezsec.hsm.druid.ConfigFilter">
+                    <property name="hsmService" ref="hsmService" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations" value="classpath*:META-INF/mybatis/*Mapper.xml" />
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.bocsoft.bocebiz.ezdb.*.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+<!-- 事务拦截器方式进行修改
+	不用扫描bean的方式，采用注解的方式。
+ -->
+<!--     <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator"> -->
+<!--         <property name="beanNames"> -->
+<!--             <list> -->
+<!--                 <value>*Mapper</value> -->
+<!--             </list> -->
+<!--         </property> -->
+<!--         <property name="interceptorNames"> -->
+<!--             <list> -->
+<!--                 <value>transactionInterceptor</value> -->
+<!--             </list> -->
+<!--         </property> -->
+<!--     </bean> -->
+
+<!--     <bean id="transactionInterceptor" -->
+<!--           class="org.springframework.transaction.interceptor.TransactionInterceptor"> -->
+<!--         <property name="transactionManager" ref="transactionManager"/> -->
+<!--         配置事务属性 -->
+<!--         <property name="transactionAttributes"> -->
+<!--             <props> -->
+<!--                 <prop key="*">PROPAGATION_REQUIRED,-Exception</prop> -->
+<!--             </props> -->
+<!--         </property> -->
+<!--     </bean> -->
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    
+</beans>
