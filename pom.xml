@@ -10,6 +10,7 @@
 		<module>tool-jdbc</module>
 		<module>tool-zookeeper</module>
 		<module>tool-common</module>
+		<module>tool-dubbo</module>
 	</modules>
 
 	<properties>
