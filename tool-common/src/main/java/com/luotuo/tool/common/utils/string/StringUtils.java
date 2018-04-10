@@ -9,6 +9,8 @@
 
 package com.luotuo.tool.common.utils.string;
 
+import java.nio.charset.Charset;
+
 /**
  * ClassName:StringUtils <br/>
  * Function: TODO ADD FUNCTION. <br/>
@@ -21,5 +23,15 @@ package com.luotuo.tool.common.utils.string;
  * @see
  */
 public final class StringUtils {
+
+    private static Charset charset = Charset.forName("UTF8");
+
+    public String deserializeRedis(byte[] bytes) {
+        return bytes == null ? null : new String(bytes, charset);
+    }
+
+    public byte[] serializeRedis(String string) {
+        return string == null ? null : string.getBytes(charset);
+    }
 
 }
