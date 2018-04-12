@@ -43,7 +43,7 @@ public class AddressUtils {
     private static String TJ_KEY = "天津";
     private static String CQ_KEY = "重庆";
     private static String SH_KEY = "上海";
-    
+
     private static String BJ_CODE_PREFIX = "11";
     private static String CQ_CODE_PREFIX = "50";
     private static String SH_CODE_PREFIX = "31";
@@ -83,47 +83,47 @@ public class AddressUtils {
 
         //情况1.地址包含直辖市
         if (addressStr.startsWith(BJ_KEY)) {
-            return municipality(addressStr, list,BJ_KEY,BJ_CODE_PREFIX);
+            return municipality(addressStr, list, BJ_KEY, BJ_CODE_PREFIX);
         }
         if (addressStr.startsWith(TJ_KEY)) {
-            return municipality(addressStr, list,TJ_KEY,TJ_CODE_PREFIX);
+            return municipality(addressStr, list, TJ_KEY, TJ_CODE_PREFIX);
         }
         if (addressStr.startsWith(SH_KEY)) {
-            return municipality(addressStr, list,SH_KEY,SH_CODE_PREFIX);
+            return municipality(addressStr, list, SH_KEY, SH_CODE_PREFIX);
         }
         if (addressStr.startsWith(CQ_KEY)) {
-            return municipality(addressStr, list,CQ_KEY,CQ_CODE_PREFIX);
+            return municipality(addressStr, list, CQ_KEY, CQ_CODE_PREFIX);
         }
 
         //情况2.规范地名串,且输入完整[河南省濮阳市范县王楼乡....]
         StringTokenizer stringTokenizer = new StringTokenizer(addressStr, "省市县");
-        while (stringTokenizer.hasMoreTokens()) {
-            String nextToken = stringTokenizer.nextToken();
-            if (list.size() == 1) {
-                if (!checkCascade(//
-                        provinceDictionary.get(list.get(0).concat(PROVINCE_KEY)), //
-                        cityDictionary.get(nextToken.concat(CITY_KEY)), //
-                        list//
-                )) {
-                    return list;
+        if (stringTokenizer.countTokens() == 4) {
+
+            while (stringTokenizer.hasMoreTokens()) {
+                String nextToken = stringTokenizer.nextToken();
+                if (list.size() == 1) {
+                    if (!checkCascade(//
+                            provinceDictionary.get(list.get(0).concat(PROVINCE_KEY)), //
+                            cityDictionary.get(nextToken.concat(CITY_KEY)), //
+                            list//
+                    )) {
+                        return list;
+                    }
+                } else if (list.size() == 2) {
+                    if (!checkCascade(//
+                            cityDictionary.get(list.get(1).concat(CITY_KEY)), //
+                            districtDictionary.get(nextToken.concat(DISTRICT_KEY)), //
+                            list//
+                    )) {
+                        return list;
+                    }
                 }
-            } else if (list.size() == 2) {
-                if (!checkCascade(//
-                        cityDictionary.get(list.get(1).concat(CITY_KEY)), //
-                        districtDictionary.get(nextToken.concat(DISTRICT_KEY)), //
-                        list//
-                )) {
-                    return list;
-                }
+
+                list.add(nextToken);
             }
 
-            list.add(nextToken);
-        }
-
-        if (list.size() == 4) {
             return list;
         }
-        list.clear();
 
         String provinceCode = null;
         //情况3.规范地名,但输入不完整
@@ -153,11 +153,7 @@ public class AddressUtils {
         String cityCode = null;
         for (int i = 2; i <= addressStr.length(); i++) {//获得市级区域
             String cityName = null;
-            if (addressStr.contains(CITY_KEY)) {
-                cityName = addressStr.substring(0, i);
-            } else {
-                cityName = addressStr.substring(0, i).concat(CITY_KEY);
-            }
+            cityName = addressStr.substring(0, i);
             cityCode = cityDictionary.get(cityName);
             if (null != cityCode) {
                 if (!checkCascade(provinceCode, cityCode, list)) {
@@ -179,11 +175,7 @@ public class AddressUtils {
         String districtCode = null;
         for (int i = 1; i <= addressStr.length(); i++) {//获得县级区域
             String districtName = null;
-            if (addressStr.contains(DISTRICT_KEY)) {
-                districtName = addressStr.substring(0, i);
-            } else {
-                districtName = addressStr.substring(0, i).concat(DISTRICT_KEY);
-            }
+            districtName = addressStr.substring(0, i);
             districtCode = districtDictionary.get(districtName);
             if (null != districtCode) {
                 if (!checkCascade(cityCode, districtCode, list)) {
@@ -215,26 +207,25 @@ public class AddressUtils {
      * @return
      * @since JDK 1.8
      */
-    private static List<String> municipality(String addressStr, List<String> list,String cityKey,String municipalityCodePrefix) {
+    private static List<String> municipality(String addressStr, List<String> list, String cityKey, String municipalityCodePrefix) {
 
         if (addressStr.startsWith(cityKey)) {
             if (addressStr.startsWith(CITY_KEY, 2)) {//北京市
                 if (addressStr.startsWith(cityKey, 3)) {//北京市北京
                     list.add(addressStr.substring(0, 3));
-                    return municipalitySplit(addressStr.substring(3), list,municipalityCodePrefix);
+                    return municipalitySplit(addressStr.substring(3), list, municipalityCodePrefix);
                 } else {//北京市海淀
-                    return municipalitySplit(addressStr, list,municipalityCodePrefix);
+                    return municipalitySplit(addressStr, list, municipalityCodePrefix);
                 }
             } else {
                 if (addressStr.startsWith(cityKey, 2)) {//北京北京[市]
                     list.add(addressStr.substring(0, 2));
-                    return municipalitySplit(addressStr.substring(2), list,municipalityCodePrefix);
+                    return municipalitySplit(addressStr.substring(2), list, municipalityCodePrefix);
                 } else {//北京[市]海淀
-                    return municipalitySplit(addressStr, list,municipalityCodePrefix);
+                    return municipalitySplit(addressStr, list, municipalityCodePrefix);
                 }
             }
         }
-
 
         return list;
     }
@@ -248,38 +239,38 @@ public class AddressUtils {
      * @return
      * @since JDK 1.8
      */
-    private static List<String> municipalitySplit(String addressStr, List<String> list,String codePrefix) {//北京[市]海淀区
+    private static List<String> municipalitySplit(String addressStr, List<String> list, String codePrefix) {//北京[市]海淀区
 
-            String bjCode = null;
-            String cityName = null;
-            if (addressStr.contains(CITY_KEY)) {
-                cityName = addressStr.substring(0, 3);
-                bjCode = provinceDictionary.get(cityName);
-            } else {
-                cityName = addressStr.substring(0, 2);
-                bjCode = provinceDictionary.get(cityName);
-                bjCode = provinceDictionary.get(cityName.concat(CITY_KEY));
-            }
-            
-            if(null != bjCode) {
-                list.add(cityName);
-                list.add(cityName);
-                addressStr = addressStr.substring(cityName.length());
-            }
-            
-            for (int i = 2; i <= addressStr.length(); i++) {
-                String districtName = addressStr.substring(0,i);
-                String districtCode = districtDictionary.get(districtName);
-                if(null != districtCode) {
-                    if(districtCode.startsWith(codePrefix)) {
-                        list.add(districtName);
-                        list.add(addressStr.substring(districtName.length()));
-                        return list;
-                    }else {
-                        return list;
-                    }
+        String bjCode = null;
+        String cityName = null;
+        if (addressStr.contains(CITY_KEY)) {
+            cityName = addressStr.substring(0, 3);
+            bjCode = provinceDictionary.get(cityName);
+        } else {
+            cityName = addressStr.substring(0, 2);
+            bjCode = provinceDictionary.get(cityName);
+            bjCode = provinceDictionary.get(cityName.concat(CITY_KEY));
+        }
+
+        if (null != bjCode) {
+            list.add(cityName);
+            list.add(cityName);
+            addressStr = addressStr.substring(cityName.length());
+        }
+
+        for (int i = 2; i <= addressStr.length(); i++) {
+            String districtName = addressStr.substring(0, i);
+            String districtCode = districtDictionary.get(districtName);
+            if (null != districtCode) {
+                if (districtCode.startsWith(codePrefix)) {
+                    list.add(districtName);
+                    list.add(addressStr.substring(districtName.length()));
+                    return list;
+                } else {
+                    return list;
                 }
             }
+        }
 
         return list;
     }
