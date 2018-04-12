@@ -316,7 +316,7 @@ public class AddressUtils {
     public static String getProvince(String addressStr) {
 
         List<String> list = splitAddress(addressStr);
-        if (list.size() > 1) {
+        if (list.size() >= 1) {
             return list.get(0);
         }
         return "";
@@ -333,7 +333,7 @@ public class AddressUtils {
     public static String getCity(String addressStr) {
 
         List<String> list = splitAddress(addressStr);
-        if (list.size() > 2) {
+        if (list.size() >= 2) {
             return list.get(1);
         }
         return "";
@@ -350,7 +350,7 @@ public class AddressUtils {
     public static String getDistrict(String addressStr) {
 
         List<String> list = splitAddress(addressStr);
-        if (list.size() > 3) {
+        if (list.size() >= 3) {
             return list.get(2);
         }
         return "";
@@ -367,7 +367,7 @@ public class AddressUtils {
     public static String getDetail(String addressStr) {
 
         List<String> list = splitAddress(addressStr);
-        if (list.size() > 4) {
+        if (list.size() >= 4) {
             return list.get(3);
         }
         return "";
