@@ -20,13 +20,8 @@ import java.util.Stack;
  * @author 鲁济良
  * @since JDK 1.8
  */
-public class LuStack<E> extends Stack<E>{
+public class LinkedStack<E>{
 	
-	/**
-	 * serialVersionUID:TODO(描述这个变量表示什么).
-	 * @since JDK 1.8
-	 */
-	private static final long serialVersionUID = -6086986387594872075L;
 
 	public E getMin() {
 
