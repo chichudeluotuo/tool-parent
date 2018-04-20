@@ -22,6 +22,11 @@ import java.util.Stack;
  */
 public class LinkedStack<E>{
 	
+	private Node<E> node;
+	
+	public LinkedStack() {
+		this.node = new Node<E>();
+	}
 
 	public E getMin() {
 
@@ -29,5 +34,49 @@ public class LinkedStack<E>{
 		return null;
 	}
 	
+	/**
+	 * push:(将元素压入栈底). <br/>
+	 * TODO(描述这个方法的注意事项 – 可选).<br/>
+	 *
+	 * @author pactera
+	 * @param value 压栈数据
+	 * @return E
+	 * @since JDK 1.8
+	 */
+	public E push(E value) {
+		
+		Node<E> node2 = new Node<E>(value);
+		node.next = node2;
+		node = node2;
+		
+		return value;
+	}
+	
+	public E pop () {
+		
+		return node.value;
+	}
 
+}
+
+class Node<E>{
+	
+	public int index;
+	public Node<E> next;
+	public E value;
+	
+	public Node() {
+		
+		this.index = 0;//索引起点0
+		next = null;//初始下个元素为null
+		
+	}
+	
+	public Node(E value) {
+		
+		this.index++;//索引起点0
+		this.next = null;//初始下个元素为null
+		this.value = value;
+	}
+	
 }
