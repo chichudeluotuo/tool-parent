@@ -27,12 +27,12 @@ import org.junit.Test;
 public class AddressUtilsTest {
 
     @Test
-    public void splitAddress() {
+    public void  splitAddress() {
 
-        String addressStr = "吉林省延边朝鲜族自治州延吉市";
+        String addressStr = "西平县";//广西壮族自治区柳州市融水苗族自治县  河南省驻马店市西平县
         
 
-        List<String> splitAddress = AddressUtils.splitAddress(addressStr);
+        List<String> splitAddress =  AddressUtils.splitAddress(addressStr);
 
         for (String string : splitAddress) {
             System.out.println(string);
